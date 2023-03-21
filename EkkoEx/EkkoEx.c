@@ -30,8 +30,6 @@ VOID EkkoEx(
         Rnd[ i ] = RandomNumber32( Instance );
     }
 
-
-
     /* set key buffer and size */
     Key.Buffer = Rnd;
     Key.Length = Key.MaximumLength = sizeof( Rnd );
