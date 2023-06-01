@@ -89,7 +89,7 @@ VOID EkkoEx(
             /* Sleep    */
             Rop[ 3 ].Rip = U_PTR( WaitForSingleObjectEx );
             Rop[ 3 ].Rcx = U_PTR( NtCurrentProcess() );
-            Rop[ 3 ].Rdx = U_PTR( Delay );
+            Rop[ 3 ].Rdx = U_PTR( TimeOut );
             Rop[ 3 ].R8  = U_PTR( FALSE );
 
             /* Sys032   */
