@@ -96,7 +96,7 @@ VOID CfgPrivateAddressAdd(
     VM_INFORMATION       VmInfo   = { 0 };
     PIMAGE_NT_HEADERS    NtHeader = { 0 };
     ULONG                Output   = { 0 };
-    NTSTATUS             NtStatus = { 0 };
+    NTSTATUS             Status   = { 0 };
 
     MemRange.NumberOfBytes  = Size;
     MemRange.VirtualAddress = Address;
