@@ -85,7 +85,12 @@ int main()
         // enumerate keys inside of the opened path
         //
         if ( ! NT_SUCCESS( Status = NtEnumerateKey( Key, KeyIndex, 0, KeyInfo, Length, &Length ) ) ) {
-            printf( "[-] NtEnumerateKey Failed: %lx\n", Status );
+            //
+            // STATUS_NO_MORE_ENTRIES
+            //
+            if ( Status != 0x8000001A ) {
+                printf("[-] NtEnumerateKey Failed: %lx\n", Status);
+            }
             goto END_OF_ENUM; 
         }
 
